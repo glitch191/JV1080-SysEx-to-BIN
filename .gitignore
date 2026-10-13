@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Build output (build.py / PyInstaller)
+build/
+dist/
+*.spec
+
+# Local test material: patch banks, plug-in banks and ROM dumps are copyrighted, never commit them
+*.syx
+*.mid
+*.midi
+*.bin
+*.zip
+*.7z
+
+# Local handoff notes for Claude sessions (describe the owner's PC: keep them out of the repo)
+HANDOFF.md
