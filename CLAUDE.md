@@ -43,7 +43,7 @@ make_icon.py    regenerates icon.ico and docs/icon.png (needs Pillow)
 py -m pip install -r requirements.txt          # tkinterdnd2, py7zr
 py -m jv1080_sysex_to_bin                      # run the window from source
 py -m jv1080_sysex_to_bin --cli PATH... [--out DIR] [--mute-expansion] [--plugin DIR]
-py -m unittest discover -s tests -v            # 21 tests (4 drive the real window, hidden)
+py -m unittest discover -s tests -v            # 22 tests (4 drive the real window, hidden)
 py -m pip install -r requirements-build.txt    # + pyinstaller, pillow
 py build.py                                    # dist/JV1080-SysEx-to-BIN.exe + dist/*-windows-x64.zip
 ```
@@ -72,9 +72,9 @@ Settings (destination, expansion option, plug-in folder) live in
 - Validation reference: Preset D converted from factory SysEx matches `PR-D.bin` except the
   category, octave tweaks and hand-tuned presets; the owner confirmed it sounds identical.
 - EFX types without factory examples (5, 21, 25-31, 35-40) follow the pattern of measured
-  siblings and are flagged approximate. Expansion-board substitutes exist for SR-JV80-04 only;
-  the other boards' wave lists are in their scanned owner's manuals (static.roland.com,
-  SR-JV80-NN_OM.pdf).
+  siblings and are flagged approximate. Expansion-board substitutes cover all 19 SR-JV80 boards
+  (wave lists from the boards' owner's manuals, static.roland.com, SR-JV80-NN_OM.pdf): a judgement
+  call by family, phrase loops become the internal Loop 1-7.
 
 ## Conventions
 

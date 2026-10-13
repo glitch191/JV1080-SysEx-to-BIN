@@ -56,7 +56,8 @@ The other types keep whatever the template record holds, as factory patches do.
 
 The plug-in uses the XV-5080 wave list (1,083 waves). JV-1080 waves INT-A 1-255 and INT-B 1-193
 are matched by name (21 renamed ones by the factory patches). Expansion-board waves have no
-equivalent; `waves.EXPANSION_SUBSTITUTES` picks the closest internal wave by family.
+equivalent; `waves.EXPANSION_SUBSTITUTES` picks, for each wave of the 19 SR-JV80 boards, the closest
+internal wave by family (phrase loops become the internal Loop 1-7, whatever their tempo).
 
 ### Value rules (JV -> XV)
 

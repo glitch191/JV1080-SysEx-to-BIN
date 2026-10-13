@@ -24,8 +24,8 @@ since the 1990s. This tool converts them.
   INIT patch, dumps with more than 128 patches give several banks.
 - **Faithful**: factory patches converted from SysEx sound the same as the plug-in's own presets
   (checked on the factory Preset D bank).
-- **Expansion boards**: patches made for SR-JV80 boards (Vintage Synth, Orchestral...) use waves the
-  plug-in does not have. By default those waves are replaced with the closest internal wave and
+- **Expansion boards**: patches made for the 19 SR-JV80 boards (Pop, Orchestral, Vintage Synth,
+  World, Dance...) use waves the plug-in does not have. By default those waves are replaced with the closest internal wave and
   the patch is marked *approximate*; untick the option to mute those tones instead.
 - **Safe re-runs**: converting again replaces the earlier banks and never touches files you added.
 
@@ -71,7 +71,7 @@ If the plug-in was installed somewhere unusual, click **Locate…** and choose i
 | Controllers (modulation, control sources 2 and 3) | ✓ as matrix controls |
 | Chorus, reverb | ✓ |
 | EFX | ✓ 40 types; 3 parallel ones become serial, 15 rarely used ones are approximate |
-| SR-JV80 expansion waves | approximate (closest internal wave) or muted; tables for SR-JV80-04 so far |
+| SR-JV80 expansion waves | approximate (closest internal wave) or muted; all 19 boards |
 | PCM card (SN-U110) waves | muted |
 | Rhythm sets, performances | no: patches only |
 | Patch category | not set (the JV-1080 has none) |

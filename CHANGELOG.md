@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0 (2026-10-13)
+
+- Waves of all 19 SR-JV80 expansion boards are now replaced with the closest internal waves
+  (option, on by default), not only SR-JV80-04. Phrase loops become the plug-in's internal drum
+  loops, whatever their tempo; such patches stay marked approximate.
+
 ## 0.1.0 (2026-10-13)
 
 First version.

@@ -139,6 +139,15 @@ class PatchConversion(unittest.TestCase):
         self.assertEqual(off.record[patch.TMT + 5], 0)  # tone switched off
         self.assertIn("muted", off.warnings[0])
 
+    def test_every_expansion_board_has_substitutes(self) -> None:
+        self.assertEqual(sorted(waves.EXPANSION_SUBSTITUTES), list(range(1, 20)))
+        for board, subs in waves.EXPANSION_SUBSTITUTES.items():
+            self.assertEqual(len(subs), len(waves.EXPANSION_WAVE_NAMES[board]), board)
+            self.assertTrue(all(1 <= v <= 1083 for v in subs), board)
+            last = waves.convert_wave(waves.GROUP_EXP, board, len(subs) - 1, True)
+            self.assertEqual(last[:2], (subs[-1], True))
+            self.assertIn(waves.EXPANSION_NAMES[board], last[2])
+
     def test_every_efx_type(self) -> None:
         for efx in range(40):
             c = patch.convert(jv_patch(efx=efx), self.template)
