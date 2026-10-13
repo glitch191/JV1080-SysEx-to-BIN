@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (2026-10-13)
 
 - New **Patches** column: how many patches each bank holds.
 - Click a column heading to sort the list; click again to reverse the order.
