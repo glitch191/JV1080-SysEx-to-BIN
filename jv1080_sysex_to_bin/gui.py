@@ -213,14 +213,18 @@ class App:
         self.clear_btn.pack(side="right", padx=(0, int(10 * s)))
 
         # Patch list
-        cols = ("bank", "number", "effect", "notes", "state")
+        cols = ("bank", "patches", "number", "effect", "notes", "state")
         frame = tk.Frame(main, bg=BORDER, padx=1, pady=1)
         frame.pack(fill="both", expand=True, pady=(int(10 * s), 0))
         self.tree = ttk.Treeview(frame, columns=cols, selectmode="none")
+        self.titles = {}
+        self.sort_by: tuple[str, bool] | None = None  # (column, descending); None keeps scan order
         for col, title, width, anchor in (("#0", "Patch", 150, "w"), ("bank", "Bank", 190, "w"),
-                                          ("number", "No.", 50, "e"), ("effect", "Effect", 150, "w"),
-                                          ("notes", "Notes", 280, "w"), ("state", "Status", 130, "w")):
-            self.tree.heading(col, text=title, anchor=anchor)
+                                          ("patches", "Patches", 70, "e"), ("number", "No.", 50, "e"),
+                                          ("effect", "Effect", 150, "w"), ("notes", "Notes", 260, "w"),
+                                          ("state", "Status", 130, "w")):
+            self.titles[col] = title
+            self.tree.heading(col, text=title, anchor=anchor, command=lambda c=col: self._sort_clicked(c))
             self.tree.column(col, width=int(width * s), anchor=anchor, stretch=col in ("bank", "notes"))
         bar = ttk.Scrollbar(frame, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=bar.set)
@@ -448,12 +452,14 @@ class App:
             for r in j.rows:
                 stripe = "odd" if len(self.tree.get_children()) % 2 else "even"
                 tags = (stripe, "approx") if r.approximate else (stripe,)
-                iid = self.tree.insert("", "end", text=r.name or "(no name)",
-                                       values=(bank_label, r.number, r.effect, r.notes, state), tags=tags)
+                iid = self.tree.insert("", "end", text=r.name or "(no name)", tags=tags,
+                                       values=(bank_label, len(j.rows), r.number, r.effect, r.notes, state))
                 self.stripe[iid] = stripe
                 items.append(iid)
             self.rows[j.dst] = items
             self.pending[j.dst] = j
+        if jobs and self.sort_by:
+            self._sort()
         if not self.pending and not self.runner.running:
             self.status.configure(text="  ·  ".join(notes) or "No JV-1080 patch found")
             if not self._collecting:
@@ -484,6 +490,32 @@ class App:
         else:
             self.summary.configure(text="Locate the plug-in first")
             self.convert_btn.state(["disabled"])
+
+    def _sort_clicked(self, col: str) -> None:
+        """Sort by a column; clicking it again reverses the order."""
+        descending = bool(self.sort_by and self.sort_by[0] == col and not self.sort_by[1])
+        self.sort_by = (col, descending)
+        for c, title in self.titles.items():
+            arrow = (" ▼" if descending else " ▲") if c == col else ""
+            self.tree.heading(c, text=title + arrow)
+        self._sort()
+
+    def _sort(self) -> None:
+        """Reorder the rows by ``sort_by`` (numbers as numbers, text ignoring case), then restripe."""
+        col, descending = self.sort_by
+
+        def value(iid: str, c: str):
+            v = self.tree.item(iid, "text") if c == "#0" else self.tree.set(iid, c)
+            return (0, int(v), "") if c in ("patches", "number") and v.isdigit() else (1, 0, v.casefold())
+
+        items = sorted(self.tree.get_children(), key=lambda i: (value(i, "bank"), value(i, "number")))
+        items.sort(key=lambda i: value(i, col), reverse=descending)
+        for n, iid in enumerate(items):
+            self.tree.move(iid, "", n)
+            stripe = "odd" if n % 2 else "even"
+            self.stripe[iid] = stripe
+            tags = self.tree.item(iid, "tags")
+            self.tree.item(iid, tags=(stripe,) + tuple(t for t in tags if t not in ("odd", "even")))
 
     def _reset_list(self) -> None:
         self.tree.delete(*self.tree.get_children())

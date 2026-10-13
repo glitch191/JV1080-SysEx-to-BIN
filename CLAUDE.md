@@ -43,7 +43,7 @@ make_icon.py    regenerates icon.ico and docs/icon.png (needs Pillow)
 py -m pip install -r requirements.txt          # tkinterdnd2, py7zr
 py -m jv1080_sysex_to_bin                      # run the window from source
 py -m jv1080_sysex_to_bin --cli PATH... [--out DIR] [--mute-expansion] [--plugin DIR]
-py -m unittest discover -s tests -v            # 22 tests (4 drive the real window, hidden)
+py -m unittest discover -s tests -v            # 23 tests (5 drive the real window, hidden)
 py -m pip install -r requirements-build.txt    # + pyinstaller, pillow
 py build.py                                    # dist/JV1080-SysEx-to-BIN.exe + dist/*-windows-x64.zip
 ```
