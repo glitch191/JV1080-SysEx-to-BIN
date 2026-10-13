@@ -85,6 +85,23 @@ class ScanThenConvert(unittest.TestCase):
         self.pump(lambda: self.app.pending)
         self.assertEqual(self.column("state"), ["Replace"] * 3)
 
+    def test_patch_count_and_sorting(self) -> None:
+        two = os.path.join(self.tmp, "Pads.syx")
+        with open(two, "wb") as f:
+            f.write(syx_bytes({0: jv_patch("Warm Pad"), 1: jv_patch("Glass Pad")}))
+        self.app.add([self.syx, two])
+        self.pump(lambda: len(self.app.pending) == 2 and not self.app._collecting)
+        names = lambda: [self.app.tree.item(i, "text").strip() for i in self.app.tree.get_children()]
+        self.app._sort_clicked("#0")
+        self.assertEqual(names(), ["Flanged", "Glass Pad", "Saw Lead", "Vintage", "Warm Pad"])
+        self.app._sort_clicked("#0")  # second click reverses
+        self.assertEqual(names(), ["Warm Pad", "Vintage", "Saw Lead", "Glass Pad", "Flanged"])
+        self.app._sort_clicked("patches")
+        self.assertEqual(self.column("patches"), ["2", "2", "3", "3", "3"])
+        self.assertEqual(names()[:2], ["Warm Pad", "Glass Pad"])  # ties keep bank order
+        tags = [self.app.tree.item(i, "tags")[0] for i in self.app.tree.get_children()]
+        self.assertEqual(tags, ["even", "odd", "even", "odd", "even"])
+
     def test_option_change_rescans(self) -> None:
         self.app.add([self.syx])
         self.pump(lambda: self.app.pending)

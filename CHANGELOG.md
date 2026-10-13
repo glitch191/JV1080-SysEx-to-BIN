@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 (2026-10-13)
+
+- New **Patches** column: how many patches each bank holds.
+- Click a column heading to sort the list; click again to reverse the order.
+
 ## 0.2.0 (2026-10-13)
 
 - Waves of all 19 SR-JV80 expansion boards are now replaced with the closest internal waves

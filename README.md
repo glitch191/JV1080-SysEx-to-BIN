@@ -18,8 +18,9 @@ since the 1990s. This tool converts them.
 - **SysEx and MIDI files**: `.syx` dumps and Standard MIDI Files (`.mid`) holding JV-1080 patches,
   as sent by the JV-1080, JV-2080, JV-1010 and XP-50 / 60 / 80 (user, card and temporary patches).
 - **Drag and drop**: files, folders, `.zip` and `.7z` archives (unpacked automatically), several at once.
-- **Scan first**: see every patch with its effect and conversion notes, and which banks will be
-  created or replaced, then confirm with **Convert**.
+- **Scan first**: see every patch with its effect and conversion notes, how many patches each bank
+  holds, and which banks will be created or replaced, then confirm with **Convert**. Click a column
+  heading to sort the list (click again to reverse).
 - **One bank per file**: each dump becomes a 128-patch bank named after it; empty slots get an
   INIT patch, dumps with more than 128 patches give several banks.
 - **Faithful**: factory patches converted from SysEx sound the same as the plug-in's own presets
